@@ -8,7 +8,7 @@ Five full-screen, interactive water simulations that solve the Navier–Stokes e
 | ![Faucet Plunge](docs/images/scene-3.png) **3 · Faucet Plunge** | ![Whirlpool Drain](docs/images/scene-4.png) **4 · Whirlpool Drain** |
 | ![Ripple Pool](docs/images/scene-5.png) **5 · Ripple Pool** | Drag to stir · keys **1–5** switch · **F** full screen · **⌘,** settings |
 
-**Run it:** `python3 -m http.server 8765`, then open <http://localhost:8765>
+**[▶ Open the live demo](https://amalmehta.github.io/NavierStokes/)**, or run it locally with `python3 -m http.server 8765` and open <http://localhost:8765>
 
 - [Instructions](docs/INSTRUCTIONS.md): setup, running, controls, settings, testing
 - [System design](docs/SYSTEM-DESIGN.md): architecture, solver, design decisions, limits

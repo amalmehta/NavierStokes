@@ -14,7 +14,7 @@ python3 -m http.server 8765
 
 Then open <http://localhost:8765>. You can also double-click `index.html`, since it uses no modules or fetches.
 
-To put it online, upload the folder as-is to any static host (GitHub Pages, Netlify, S3). There's no build step.
+It's live at <https://amalmehta.github.io/NavierStokes/> through GitHub Pages, served from `main` at the repo root, so every push redeploys it. Any other static host works too, since there's no build step.
 
 ## Use
 

@@ -55,7 +55,7 @@ Asked and answered (2026-10-06):
 - The five examples are water-focused: River & Rocks, Vortex Street, Faucet Plunge,
   Whirlpool Drain, Ripple Pool.
 - Initially kept local; later pushed on request to a public repo:
-  https://github.com/amalmehta/NavierStokes
+  https://github.com/amalmehta/NavierStokes, live at https://amalmehta.github.io/NavierStokes/
 - Engine: GPU WebGL 2, plain HTML/JS, no build step.
 
 Decided without asking:
@@ -96,3 +96,4 @@ CHANGELOG:
 - 2026-10-05 — added meta-instruction: applications include a settings button or tab
 - 2026-10-06 — built: five-scene WebGL site, docs, self-test; open questions answered above
 - 2026-10-06 — committed and pushed to public GitHub repo NavierStokes
+- 2026-10-06 — turned on GitHub Pages: https://amalmehta.github.io/NavierStokes/
