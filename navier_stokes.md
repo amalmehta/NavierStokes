@@ -54,8 +54,8 @@ Asked and answered (2026-10-06):
 - Platform: website only. DELIVERABLES says website, so no Mac app.
 - The five examples are water-focused: River & Rocks, Vortex Street, Faucet Plunge,
   Whirlpool Drain, Ripple Pool.
-- Kept local: git init with README and docs, no GitHub repo created or pushed.
-  If it goes on GitHub later, the repo name would be NavierStokes.
+- Initially kept local; later pushed on request to a public repo:
+  https://github.com/amalmehta/NavierStokes
 - Engine: GPU WebGL 2, plain HTML/JS, no build step.
 
 Decided without asking:
@@ -95,3 +95,4 @@ CHANGELOG:
 - 2026-10-02 — added meta-instruction: every project has a system design doc at docs/SYSTEM-DESIGN.md
 - 2026-10-05 — added meta-instruction: applications include a settings button or tab
 - 2026-10-06 — built: five-scene WebGL site, docs, self-test; open questions answered above
+- 2026-10-06 — committed and pushed to public GitHub repo NavierStokes
