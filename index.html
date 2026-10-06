@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Five full-screen, interactive Navier–Stokes fluid simulations running on your GPU.">
+  <title>Navier–Stokes</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23063a52'/%3E%3Cpath d='M5 18c4-6 8 6 12 0s8 6 10 0' stroke='%2366d9ff' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="view" aria-label="Fluid simulation"></canvas>
+
+  <div id="ui">
+    <header class="top">
+      <div class="title">
+        <h1>Navier–Stokes</h1>
+        <p id="scene-name"></p>
+      </div>
+      <div class="actions">
+        <button id="btn-pause" class="icon" title="Pause (Space)" aria-label="Pause">
+          <svg viewBox="0 0 24 24"><path class="i-pause" d="M8 5v14M16 5v14"/><path class="i-play" d="M7 5l12 7-12 7z"/></svg>
+        </button>
+        <button id="btn-reset" class="icon" title="Restart scene (R)" aria-label="Restart scene">
+          <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg>
+        </button>
+        <button id="btn-eq" class="icon" title="Equations (E)" aria-label="Show equations">
+          <span aria-hidden="true">∂</span>
+        </button>
+        <button id="btn-settings" class="icon" title="Settings (⌘,)" aria-label="Settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
+        </button>
+        <button id="btn-full" class="icon" title="Full screen (F)" aria-label="Full screen">
+          <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <aside id="eq-card" class="card">
+      <div id="eq-lines" class="eq"></div>
+      <dl id="eq-terms"></dl>
+      <p id="eq-note"></p>
+      <p id="scene-blurb"></p>
+    </aside>
+
+    <nav id="scenes" aria-label="Examples"></nav>
+    <div id="hud"></div>
+  </div>
+
+  <section id="settings" class="panel" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+    <header><h2 id="settings-title">Settings</h2><button class="close" data-close aria-label="Close">×</button></header>
+    <div class="grid">
+      <label for="s-quality">Quality</label>
+      <select id="s-quality" data-key="quality">
+        <option value="low">Low — fast</option><option value="medium">Medium</option>
+        <option value="high">High</option><option value="ultra">Ultra — needs a strong GPU</option>
+      </select>
+      <label for="s-view">View</label>
+      <select id="s-view" data-key="view">
+        <option value="0">Water</option><option value="1">Speed</option>
+        <option value="2">Vorticity (spin)</option><option value="3">Pressure / height</option>
+      </select>
+      <label for="s-speed">Playback speed <output data-for="speed"></output></label>
+      <input id="s-speed" data-key="speed" type="range" min="0.25" max="2" step="0.05">
+      <label for="s-viscosity">Viscosity <output data-for="viscosity"></output></label>
+      <input id="s-viscosity" data-key="viscosity" type="range" min="0" max="5" step="0.1">
+      <label for="s-vorticity">Swirl detail <output data-for="vorticity"></output></label>
+      <input id="s-vorticity" data-key="vorticity" type="range" min="0" max="3" step="0.1">
+      <label for="s-cycles">Pressure solver cycles <output data-for="cycles"></output></label>
+      <input id="s-cycles" data-key="cycles" type="range" min="1" max="6" step="1">
+      <label for="s-rain">Rain on the pool</label>
+      <input id="s-rain" data-key="rain" type="checkbox">
+      <label for="s-equations">Show equations</label>
+      <input id="s-equations" data-key="equations" type="checkbox">
+      <label for="s-stats">Show stats</label>
+      <input id="s-stats" data-key="stats" type="checkbox">
+      <label for="s-autohide">Hide controls when idle</label>
+      <input id="s-autohide" data-key="autohide" type="checkbox">
+    </div>
+    <footer>
+      <button id="s-defaults" class="text">Restore defaults</button>
+      <span class="keys">1–5 scenes · Space pause · R restart · E equations · F full screen</span>
+    </footer>
+  </section>
+
+  <button id="feedback-tab" aria-controls="feedback">Feedback</button>
+  <section id="feedback" class="panel" role="dialog" aria-labelledby="feedback-title" hidden>
+    <header><h2 id="feedback-title">Feedback</h2><button class="close" data-close aria-label="Close">×</button></header>
+    <p class="hint">Notes stay in this browser. Copy or download them to pass along.</p>
+    <textarea id="fb-text" rows="4" placeholder="What worked, what didn't, what you'd like to see…"></textarea>
+    <div class="row">
+      <button id="fb-save">Save note</button>
+      <button id="fb-copy" class="text">Copy all</button>
+      <button id="fb-download" class="text">Download</button>
+      <span id="fb-status" aria-live="polite"></span>
+    </div>
+    <ol id="fb-list"></ol>
+  </section>
+
+  <div id="error" role="alert" hidden></div>
+  <pre id="selftest" hidden></pre>
+
+  <script src="js/gl.js"></script>
+  <script src="js/shaders.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/fluid.js"></script>
+  <script src="js/pool.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
